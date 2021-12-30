@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package models;
+
+option go_package = "github.com/pt_suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors";
+
+import "models/rock_paper_scissors/hand_shapes.proto";
+import "models/rock_paper_scissors/result.proto";
+import "google/protobuf/timestamp.proto";
+
+// 型にはスカラー型とメッセージ型の２つがあります。
+// スカラー型は数値、文字列、真偽値などがあり、メッセージ型は複数のフィールドを持つことができます。
+
+// 対戦結果のメッセージ型です。
+message MatchResult {
+  HandShapes yourHandShapes = 1;
+  HandShapes opponentHandShapes = 2;
+  Result result = 3;
+  google.protobuf.Timestamp create_time = 4;
+}

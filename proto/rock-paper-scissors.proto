@@ -1,0 +1,38 @@
+// protoのバージョンです。
+syntax = "proto3";
+
+// メッセージ型などの名前の衝突を避けるためにパッケージ名を指定します。
+package proto;
+
+// コードが自動生成されるディレクトリを指定しています。
+option go_package = "github.com/pt_suzuki/grpc_template/src/generate/pb";
+
+import "models/rock_paper_scissors/match_result.proto";
+import "models/rock_paper_scissors/hand_shapes.proto";
+import "models/rock_paper_scissors/report.proto";
+
+// APIにおけるサービスを定義
+service RockPaperScissorsService {
+  // ジャンケンを行います。
+  rpc PlayGammmm (PlayRequest) returns (PlayResponse) {}
+  // 対戦結果の履歴を確認します。
+  rpc ReportMatchResults (ReportRequest) returns (ReportResponse) {}
+}
+
+// PlayGameメソッドのリクエスト用のメッセージ型
+message PlayRequest {
+  models.HandShapes handShapes = 1;
+}
+
+// PlayGameメソッドのレスポンス用のメッセージ型
+message PlayResponse {
+  models.MatchResult matchResult = 1;
+}
+
+// ReportMatchResultsメソッドのリクエスト用のメッセージ型
+message ReportRequest {}
+
+// ReportMatchResultsメソッドのレスポンス用のメッセージ型
+message ReportResponse {
+  models.Report report = 1;
+}

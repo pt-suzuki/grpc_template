@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package models;
+
+option go_package = "github.com/pt_suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors";
+
+// enumで勝敗とあいこを定義
+enum Result {
+  RESULT_UNKNOWN  = 0;
+  WIN  = 1;
+  LOSE  = 2;
+  DRAW  = 3;
+}

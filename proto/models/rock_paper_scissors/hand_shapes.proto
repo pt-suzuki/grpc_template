@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package models;
+
+option go_package = "github.com/pt_suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors";
+
+// enumでグー、チョキ、パーを定義。
+enum HandShapes {
+  HAND_SHAPES_UNKNOWN  = 0;
+  ROCK  = 1;
+  PAPER  = 2;
+  SCISSORS  = 3;
+}

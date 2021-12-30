@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package models;
+
+option go_package = "github.com/pt_suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors";
+
+import "models/rock_paper_scissors/match_result.proto";
+
+// 今までの試合数、勝敗と対戦結果の履歴を持つメッセージ型です。
+message Report {
+	int32 numberOfGames = 1;
+	int32 numberOfWins = 2;
+	// `repeated`を付けることで配列を表現できます。
+	repeated MatchResult matchResults = 3;
+}
