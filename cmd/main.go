@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/pt_suzuki/grpc_template/src/router"
+	"github.com/pt-suzuki/grpc_template/src/register"
 	"log"
 	"net"
 )
@@ -15,7 +15,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	server := router.RouterImpl().GetRouter()
+	server := register.RegisterImpl().GetRegisterServer()
 
 	// サーバーを起動
 	server.Serve(listenPort)

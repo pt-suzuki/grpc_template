@@ -1,9 +1,9 @@
 package router
 
 import (
-	server2 "github.com/pt_suzuki/grpc_template/infrastructure/server"
-	"github.com/pt_suzuki/grpc_template/src/generate/pb"
-	"github.com/pt_suzuki/grpc_template/src/provider"
+	server2 "github.com/pt-suzuki/grpc_template/infrastructure/server"
+	"github.com/pt-suzuki/grpc_template/src/generate/pb"
+	"github.com/pt-suzuki/grpc_template/src/provider"
 	"google.golang.org/grpc"
 )
 
