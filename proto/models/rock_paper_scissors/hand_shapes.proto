@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package models;
 
-option go_package = "github.com/pt_suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors";
+option go_package = "github.com/pt-suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors";
 
 // enumでグー、チョキ、パーを定義。
 enum HandShapes {

@@ -1,7 +1,7 @@
 package rock_peper_scissors
 
 import (
-	"github.com/pt_suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors"
+	"github.com/pt-suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors"
 )
 
 type Translator interface {

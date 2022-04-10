@@ -1,4 +1,4 @@
-package pb_providers
+package pb_provider
 
 import (
 	"context"

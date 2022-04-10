@@ -10,7 +10,7 @@ import (
 )
 
 type PlayGameAction interface {
-	PlayGammmmActionInvoke(cxt context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error)
+	PlayGameActionInvoke(cxt context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error)
 }
 
 type prayGameAction struct {
@@ -31,7 +31,7 @@ func PlayGameActionImpl(
 	}
 }
 
-func (s *prayGameAction) PlayGammmmActionInvoke(cxt context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error) {
+func (s *prayGameAction) PlayGameActionInvoke(cxt context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error) {
 	if req.HandShapes == rock_paper_scissors.HandShapes_HAND_SHAPES_UNKNOWN {
 		return nil, status.Errorf(codes.InvalidArgument, "Choose Rock, Paper, or Scissors.")
 	}
@@ -39,22 +39,4 @@ func (s *prayGameAction) PlayGammmmActionInvoke(cxt context.Context, req *pb.Pla
 	matchResult := s.service.PlayGame(req.HandShapes)
 
 	return s.responder.PlayGameResponderInvoke(cxt, matchResult)
-}
-
-func (s *prayGameAction) PlayGammmm(_ context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error) {
-	if req.HandShapes == rock_paper_scissors.HandShapes_HAND_SHAPES_UNKNOWN {
-		return nil, status.Errorf(codes.InvalidArgument, "Choose Rock, Paper, or Scissors.")
-	}
-
-	matchResult := s.service.PlayGame(req.HandShapes)
-
-	return &pb.PlayResponse{
-		MatchResult: matchResult,
-	}, nil
-}
-
-func (s *prayGameAction) ReportMatchResults(_ context.Context, _ *pb.ReportRequest) (*pb.ReportResponse, error) {
-	return &pb.ReportResponse{
-		Report: s.service.ReportMatchResults(),
-	}, nil
 }

@@ -1,4 +1,4 @@
-package router
+package register
 
 import (
 	server2 "github.com/pt-suzuki/grpc_template/infrastructure/server"
@@ -7,24 +7,24 @@ import (
 	"google.golang.org/grpc"
 )
 
-type Router interface {
-	GetRouter() *grpc.Server
+type Register interface {
+	GetRegisterServer() *grpc.Server
 }
 
-type router struct{}
+type register struct{}
 
-func RouterImpl() Router {
-	return &router{}
+func RegisterImpl() Register {
+	return &register{}
 }
 
-func (r *router) GetRouter() *grpc.Server {
+func (r *register) GetRegisterServer() *grpc.Server {
 	server := server2.CreateGrpc()
 
-	actions := provider.GetActionProvider()
+	wire := provider.Wire()
 
 	// 自動生成された関数に、サーバと実際に処理を行うメソッドを実装したハンドラを設定します。
 	// protoファイルで定義した`RockPaperScissorsService`に対応しています。
-	pb.RegisterRockPaperScissorsServiceServer(server, actions.RockPaperScissorsPlayGameAction)
+	pb.RegisterRockPaperScissorsServiceServer(server, wire.RockPaperScissorsProvider)
 
 	return server
 }

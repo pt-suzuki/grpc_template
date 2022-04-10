@@ -11,7 +11,7 @@
 package pb
 
 import (
-	rock_paper_scissors "github.com/pt_suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors"
+	rock_paper_scissors "github.com/pt-suzuki/grpc_template/src/generate/pb/models/rock_paper_scissors"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

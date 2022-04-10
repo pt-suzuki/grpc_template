@@ -5,7 +5,7 @@ syntax = "proto3";
 package proto;
 
 // コードが自動生成されるディレクトリを指定しています。
-option go_package = "github.com/pt_suzuki/grpc_template/src/generate/pb";
+option go_package = "github.com/pt-suzuki/grpc_template/src/generate/pb";
 
 import "models/rock_paper_scissors/match_result.proto";
 import "models/rock_paper_scissors/hand_shapes.proto";
