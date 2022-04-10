@@ -17,6 +17,8 @@ func main() {
 
 	server := register.RegisterImpl().GetRegisterServer()
 
+	println("start server")
+
 	// サーバーを起動
 	server.Serve(listenPort)
 }
