@@ -14,7 +14,7 @@ import "models/rock_paper_scissors/report.proto";
 // APIにおけるサービスを定義
 service RockPaperScissorsService {
   // ジャンケンを行います。
-  rpc PlayGammmm (PlayRequest) returns (PlayResponse) {}
+  rpc PlayGame (PlayRequest) returns (PlayResponse) {}
   // 対戦結果の履歴を確認します。
   rpc ReportMatchResults (ReportRequest) returns (ReportResponse) {}
 }
@@ -30,7 +30,9 @@ message PlayResponse {
 }
 
 // ReportMatchResultsメソッドのリクエスト用のメッセージ型
-message ReportRequest {}
+message ReportRequest {
+  string userId = 1;
+}
 
 // ReportMatchResultsメソッドのレスポンス用のメッセージ型
 message ReportResponse {

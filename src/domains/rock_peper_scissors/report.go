@@ -1,17 +1,19 @@
-package report
-
-import "github.com/pt-suzuki/grpc_template/src/domains/rock_peper_scissors"
+package rock_peper_scissors
 
 type Report struct {
+	ID            string
 	NumberOfGames uint8
 	NumberOfWins  uint8
-	MatchResults  MatchResults
+	MatchResults  RockPaperScissors
+	UserId        string
 }
 
-func (r *Report) AddGameCount(matchResult *MatchResult) {
+func (r *Report) CalcGameCount() {
 	r.NumberOfGames = r.NumberOfGames + 1
-	if matchResult.Result == rock_peper_scissors.WIN {
-		r.NumberOfWins = r.NumberOfWins + 1
+
+	for _, item := range r.MatchResults {
+		if item.Result == WIN {
+			r.NumberOfWins = r.NumberOfWins + 1
+		}
 	}
-	r.MatchResults = append(r.MatchResults, matchResult)
 }

@@ -1,6 +1,9 @@
 package rock_peper_scissors
 
-import "github.com/golang/protobuf/ptypes/timestamp"
+import (
+	"math/rand"
+	"time"
+)
 
 type HandShapes uint8
 
@@ -21,19 +24,25 @@ const (
 )
 
 type RockPaperScissor struct {
+	ID                 string
 	YourHandShapes     HandShapes
 	OpponentHandShapes HandShapes
 	Result             Result
-	CreateTime         timestamp.Timestamp
+	CreateTime         time.Time
+	UserID             string
 }
 
-func (m *RockPaperScissor) PlayHandShape() Result {
+func (m *RockPaperScissor) PlayHandShape() {
+	// 自動生成された型を元に対戦結果を生成
+	m.OpponentHandShapes = HandShapes(rand.Intn(3) + 1)
 	if m.YourHandShapes == m.OpponentHandShapes {
-		return DRAW
+		m.Result = DRAW
+		return
 	} else if (m.YourHandShapes-m.OpponentHandShapes+3)%3 == 1 {
-		return WIN
+		m.Result = WIN
+		return
 	}
-	return LOSE
+	m.Result = LOSE
 }
 
 type RockPaperScissors []*RockPaperScissor

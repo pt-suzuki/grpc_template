@@ -1,4 +1,4 @@
-package config
+package connection
 
 import (
 	"github.com/kelseyhightower/envconfig"

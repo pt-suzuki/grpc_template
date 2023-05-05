@@ -6,16 +6,14 @@ type UseCase interface {
 }
 
 type useCase struct {
-	translator    Translator
-	repository    Repository
-	reportService ReportUseCase
+	translator Translator
+	repository Repository
 }
 
-func UseCaseImpl(translator Translator, repository Repository, reportService ReportUseCase) UseCase {
+func UseCaseImpl(translator Translator, repository Repository) UseCase {
 	return &useCase{
-		translator:    translator,
-		repository:    repository,
-		reportService: reportService,
+		translator: translator,
+		repository: repository,
 	}
 }
 

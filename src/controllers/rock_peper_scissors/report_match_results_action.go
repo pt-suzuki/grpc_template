@@ -11,23 +11,24 @@ type ReportMatchResultsAction interface {
 }
 
 type reportMatchResultsAction struct {
-	service    rock_peper_scissors.Service
-	translator rock_peper_scissors.Translator
+	useCase    rock_peper_scissors.ReportUseCase
+	translator rock_peper_scissors.ReportTranslator
 	responder  ReportMatchResultsResponder
 }
 
 func ReportMatchResultsActionImpl(
-	service rock_peper_scissors.Service,
-	translator rock_peper_scissors.Translator,
+	useCase rock_peper_scissors.ReportUseCase,
+	translator rock_peper_scissors.ReportTranslator,
 	responder ReportMatchResultsResponder,
 ) ReportMatchResultsAction {
 	return &reportMatchResultsAction{
-		service:    service,
+		useCase:    useCase,
 		translator: translator,
 		responder:  responder,
 	}
 }
 
-func (s *reportMatchResultsAction) ReportMatchResultsActionInvoke(cxt context.Context, _ *pb.ReportRequest) (*pb.ReportResponse, error) {
-	return s.responder.ReportMatchResultsInvoke(cxt, s.service.ReportMatchResults())
+func (s *reportMatchResultsAction) ReportMatchResultsActionInvoke(cxt context.Context, req *pb.ReportRequest) (*pb.ReportResponse, error) {
+	result, err := s.useCase.GetByUserId(req.UserId)
+	return s.responder.ReportMatchResultsInvoke(cxt, result, err)
 }

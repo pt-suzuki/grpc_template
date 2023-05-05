@@ -9,14 +9,10 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/plugin/dbresolver"
-
-	"github.com/mm-technologies/magic-playbook-suite-integration/config"
-	"github.com/mm-technologies/magic-playbook-suite-integration/core/errors"
-	"github.com/mm-technologies/magic-playbook-suite-integration/internal/suite/infra/logger"
 )
 
 // NewGormConnection is constructor of gorm connection.
-func NewGormConnection(res []config.DBConfig, rep []config.DBConfig) *GormConnection {
+func NewGormConnection(res []DBConfig, rep []DBConfig) *GormConnection {
 	return &GormConnection{
 		config: Configs{
 			sources:  res,
@@ -26,7 +22,7 @@ func NewGormConnection(res []config.DBConfig, rep []config.DBConfig) *GormConnec
 }
 
 // DBConfigs is db config.
-type DBConfigs []config.DBConfig
+type DBConfigs []DBConfig
 
 func (configs DBConfigs) getDsns() []string {
 	srcDsns := make([]string, len(configs))
@@ -60,7 +56,6 @@ type GormConnection struct {
 func (g *GormConnection) DB() *gorm.DB {
 	g.dbOnce.Do(func() {
 		if err := g.Connect(); err != nil {
-			logger.Error(err, "Failed to connect DB")
 		}
 	})
 	return g.db
@@ -74,7 +69,7 @@ func (g *GormConnection) Connect() error {
 	connect := postgres.Open(srcDsns[0])
 	db, err := gorm.Open(connect, &gorm.Config{})
 	if err != nil {
-		return errors.Wrap(err)
+		return err
 	}
 
 	srcDialectors := make([]gorm.Dialector, len(srcDsns))
@@ -94,7 +89,7 @@ func (g *GormConnection) Connect() error {
 		SetMaxIdleConns(g.config.sources[0].MaxIdleConns).
 		SetMaxOpenConns(g.config.sources[0].MaxOpenConns)
 	if err := db.Use(resolver); err != nil {
-		return errors.Wrap(err)
+		return err
 	}
 
 	g.db = db
@@ -105,7 +100,6 @@ func (g *GormConnection) Connect() error {
 func (g *GormConnection) WaitConnection() {
 	for {
 		if db := g.DB(); db == nil {
-			logger.Info("wait for starting db")
 			time.Sleep(time.Second * 5) //nolint:gomnd
 		} else {
 			break
@@ -116,15 +110,12 @@ func (g *GormConnection) WaitConnection() {
 // Close closes connection.
 func (g *GormConnection) Close() {
 	if g.db == nil {
-		logger.Debug("db is not initialized")
 		return
 	}
 	sqlDB, err := g.db.DB()
 	if err != nil {
-		logger.Debug("cannot get sql db")
 		return
 	}
 	if err := sqlDB.Close(); err != nil {
-		logger.Error(err, "Failed to close connection")
 	}
 }

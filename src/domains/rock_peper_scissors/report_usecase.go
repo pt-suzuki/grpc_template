@@ -1,32 +1,35 @@
 package rock_peper_scissors
 
-type ReportService interface {
-	AddRockPaperScissorPlay(rps *RockPaperScissor)
-	GetByUserId(userId string) *Report
+type ReportUseCase interface {
+	GetByUserId(userId string) (*Report, error)
 }
 
-type reportService struct {
-	translator       ReportTranslator
-	reportRepository ReportRepository
+type reportUseCase struct {
+	translator ReportTranslator
+	useCase    UseCase
 }
 
-func reportServiceImpl(translator ReportTranslator, reportRepository ReportRepository) ReportService {
-	return &reportService{
-		translator:       translator,
-		reportRepository: reportRepository,
+func ReportUseCaseImpl(translator ReportTranslator, useCase UseCase) ReportUseCase {
+	return &reportUseCase{
+		translator: translator,
+		useCase:    useCase,
 	}
 }
 
-func (s *reportService) GetByUserId(userId string) *Report {
-	return s.reportRepository.GetByUserId(userId)
-}
+func (u *reportUseCase) GetByUserId(userId string) (*Report, error) {
+	criteria := &SearchCriteria{
+		UserID: userId,
+	}
 
-func (s *reportService) Save(content *Report) {
-	s.reportRepository.Save(content)
-}
+	results, err := u.useCase.ListByCriteria(criteria)
+	if err != nil {
+		return nil, err
+	}
 
-func (s *reportService) AddRockPaperScissorPlay(rps *RockPaperScissor) {
-	r := s.GetByUserId(rps.UserId)
-	r.AddGameCount(rps)
-	s.Save(r)
+	m := &Report{
+		MatchResults: results,
+	}
+	m.CalcGameCount()
+
+	return m, nil
 }

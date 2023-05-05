@@ -14,29 +14,29 @@ type PlayGameAction interface {
 }
 
 type prayGameAction struct {
-	service    rock_peper_scissors.Service
+	useCase    rock_peper_scissors.UseCase
 	translator rock_peper_scissors.Translator
 	responder  PlayGameResponder
 }
 
 func PlayGameActionImpl(
-	service rock_peper_scissors.Service,
+	useCase rock_peper_scissors.UseCase,
 	translator rock_peper_scissors.Translator,
 	responder PlayGameResponder,
 ) PlayGameAction {
 	return &prayGameAction{
-		service:    service,
+		useCase:    useCase,
 		translator: translator,
 		responder:  responder,
 	}
 }
 
-func (s *prayGameAction) PlayGameActionInvoke(cxt context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error) {
+func (a *prayGameAction) PlayGameActionInvoke(cxt context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error) {
 	if req.HandShapes == rock_paper_scissors.HandShapes_HAND_SHAPES_UNKNOWN {
 		return nil, status.Errorf(codes.InvalidArgument, "Choose Rock, Paper, or Scissors.")
 	}
 
-	matchResult := s.service.PlayGame(req.HandShapes)
+	matchResult, err := a.useCase.PlayGame(a.translator.RequestHandShapes(req.HandShapes))
 
-	return s.responder.PlayGameResponderInvoke(cxt, matchResult)
+	return a.responder.PlayGameResponderInvoke(cxt, matchResult, err)
 }
