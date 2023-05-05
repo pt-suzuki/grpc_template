@@ -11,7 +11,7 @@ type RockPaperScissorsProvider interface {
 }
 
 type rockPaperScissorsProvider struct {
-	playGameAction           rock_peper_scissors.PlayGameAction
+	playAction               rock_peper_scissors.PlayGameAction
 	reportMatchResultsAction rock_peper_scissors.ReportMatchResultsAction
 }
 
@@ -25,8 +25,8 @@ func RockPaperScissorsProviderImpl(
 	}
 }
 
-func (h *rockPaperScissorsProvider) PlayGammmm(cxt context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error) {
-	return h.playGameAction.PlayGameActionInvoke(cxt, req)
+func (h *rockPaperScissorsProvider) PlayGame(cxt context.Context, req *pb.PlayRequest) (*pb.PlayResponse, error) {
+	return h.playAction.PlayGameActionInvoke(cxt, req)
 }
 
 func (h *rockPaperScissorsProvider) ReportMatchResults(cxt context.Context, req *pb.ReportRequest) (*pb.ReportResponse, error) {
